@@ -1,6 +1,8 @@
 class ProductsController < ApplicationController
     before_action :set_product, only: [:show, :edit, :update, :destroy]
     # before_action :authenticate, except: [:index]
+    require 'rest-client'
+    require 'json'
     def index
         @products = Product.all
     end
@@ -56,7 +58,12 @@ class ProductsController < ApplicationController
      end
 
     def putjson
-        @procli = Products.all.json
+        @product = Product.all
+        render @product.to_json
+          # puts @product.class
+          # respond_to do |format|
+          #     format.json { render json: @product.to_json }
+          # end
       end
 
     private
