@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     get 'sign_up' => 'users#new', :as => 'sign_up'
     get 'log_in' => 'sessions#create', :as => 'log_in'
     #  shallow do
+    get 'json_get' => 'products#getjson', :as => 'json_get'
+    get 'json_put' => 'products#putjson', :as => 'json_put'
     root 'home#index'
     resources :stores
     resources :products

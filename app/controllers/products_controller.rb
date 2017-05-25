@@ -49,6 +49,16 @@ class ProductsController < ApplicationController
         end
     end
 
+    def getjson
+        r = RestClient.get 'http://192.168.35.31/json_put'
+        link = JSON.parse(r)
+        puts link
+     end
+
+    def putjson
+        @procli = Products.all.json
+      end
+
     private
 
     def set_product
