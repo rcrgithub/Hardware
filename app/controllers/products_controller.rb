@@ -1,8 +1,8 @@
 class ProductsController < ApplicationController
     before_action :set_product, only: [:show, :edit, :update, :destroy]
-    # before_action :authenticate, except: [:index]
     require 'rest-client'
     require 'json'
+
     def index
         @products = Product.all
     end
@@ -52,18 +52,37 @@ class ProductsController < ApplicationController
     end
 
     def getjson
-        r = RestClient.get 'http://192.168.35.31/json_put'
-        link = JSON.parse(r)
-        puts link
+        @products = RestClient.get 'http://192.168.35.31:3000/json_put'
+        puts 'antes'
+        puts @products
+        @product = JSON.parse(@products)
+        render :index1
      end
 
     def putjson
+        # if params_key?(:product_id)
+
+        #  else
         @product = Product.all
-        render @product.to_json
-          # puts @product.class
-          # respond_to do |format|
-          #     format.json { render json: @product.to_json }
-          # end
+        render json: @product
+        end
+    # end
+
+    def putjson1
+        quantid = params['key1']
+        puts @product
+        @product = Product.find_by_id(quantid)
+        puts @product.quantity
+
+        puts @product.quantity
+        @product = @product.update(quantity: @product.quantity -= 1)
+        render json: @product
+      end
+
+    def putjson2
+        puts params[:id]
+        @product = RestClient.patch 'http://192.168.35.31:3000/json_put1', 'key1' => params[:id]
+        redirect_to json_get_path
       end
 
     private
